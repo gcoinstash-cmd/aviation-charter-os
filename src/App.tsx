@@ -1,67 +1,105 @@
 import React, { useState } from 'react';
 import { 
-  Truck, Shield, Award, ArrowRight, Calendar, DollarSign, Lock, 
+  Plane, Shield, Award, ArrowRight, Calendar, DollarSign, Lock, 
   ChevronRight, CheckCircle2, Sparkles, Layers, Terminal, Server,
-  AlertCircle, Check, Phone, Plane, Thermometer, Compass, Fuel, Gauge
+  AlertCircle, Check, Phone, Thermometer, Compass, Fuel, Gauge,
+  Clock, MapPin, Users, X, Sliders, FileText
 } from 'lucide-react';
 import { AdminPortalModal } from './AdminPortalModal.tsx';
 
-interface ShowcaseItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  rate: string;
-  status: string;
-  features: string[];
+interface Aircraft {
+  tail: string;
+  model: string;
+  category: string;
+  range: string;
+  speed: string;
+  passengers: number;
+  hourlyRate: number;
+  homeBase: string;
+  description: string;
+  amenities: string[];
   img: string;
+  gallery: string[];
 }
 
-const ITEMS: ShowcaseItem[] = [
+const FLEET: Aircraft[] = [
   {
-    "id": "TAIL-N884AG",
-    "title": "Gulfstream G650ER Ultra Long-Range",
-    "subtitle": "14 Passengers // 7,500 NM Range // Mach 0.90 Cruise Speed",
-    "rate": "$11,500 / Flight Hour",
-    "status": "HANGAR ACTIVE // TETERBORO (KTEB)",
-    "features": [
-      "Direct Transatlantic & Pacific Range",
-      "Ku-band Ka High-Speed Wi-Fi",
-      "Full Aft Stateroom with En-Suite Shower",
-      "Dedicated Flight Attendant & Bespoke Dining"
-    ],
-    "img": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf"
+    tail: "N880GF",
+    model: "Gulfstream G650ER Flagship",
+    category: "Ultra-Long Range",
+    range: "7,500 NM (Intercontinental)",
+    speed: "Mach 0.925 (610 mph)",
+    passengers: 16,
+    hourlyRate: 11500,
+    homeBase: "KTEB (Teterboro / NYC)",
+    description: "The pinnacle of private sovereign travel. 4 distinct living zones, dedicated private stateroom with ensuite shower, and Ka-band ultra-high-speed satellite uplink.",
+    amenities: ["Ensuite Master Shower", "Ka-Band Satellite WiFi", "100% Fresh Air Circulation", "Full Aft Galley with Convection Oven"],
+    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b",
+    gallery: [
+      "https://images.unsplash.com/photo-1540962351504-03099e0a754b",
+      "https://images.unsplash.com/photo-1583416750470-965b2707b355"
+    ]
   },
   {
-    "id": "TAIL-N712VC",
-    "title": "Bombardier Challenger 350 Super-Midsize",
-    "subtitle": "9 Passengers // 3,200 NM Range // Stand-Up Flat Floor Cabin",
-    "rate": "$6,800 / Flight Hour",
-    "status": "ON STANDBY // VAN NUYS (KVNY)",
-    "features": [
-      "Coast-to-Coast Nonstop Capability",
-      "Lowest Cabin Altitude in Class",
-      "Executive Club Seating Configuration",
-      "In-Flight Luggage Access"
-    ],
-    "img": "https://images.unsplash.com/photo-1569154941061-e231b4725ef1"
+    tail: "N750CS",
+    model: "Bombardier Global 7500",
+    category: "Ultra-Long Range",
+    range: "7,700 NM (Nonstop Lon-Tokyo)",
+    speed: "Mach 0.90 (594 mph)",
+    passengers: 14,
+    hourlyRate: 12200,
+    homeBase: "KVNY (Van Nuys / LA)",
+    description: "Industry-leading range and smoothest ride in business aviation. Patented Nuage ergonomic seating, zero gravity positioning, and dedicated master suite.",
+    amenities: ["Master Bedroom Suite", "Club Suite & Dining Conference", "Pũr Air System (HEPA Filter)", "Crew Rest Compartment"],
+    img: "https://images.unsplash.com/photo-1519074069444-1ba4ea16e6f6",
+    gallery: [
+      "https://images.unsplash.com/photo-1519074069444-1ba4ea16e6f6",
+      "https://images.unsplash.com/photo-1569154941061-e231b4725ef1"
+    ]
   },
   {
-    "id": "EMPTY-0924",
-    "title": "Flash Empty-Leg: Miami (KOPF) → Aspen (KASE)",
-    "subtitle": "Citation Sovereign+ // 8 Seats // Departure Tomorrow 10:00 EST",
-    "rate": "$14,900 Full Aircraft (62% Off)",
-    "status": "CONFIRMED EMPTY-LEG ROUTE",
-    "features": [
-      "Instant 1-Click Tail Reservation",
-      "FBO Private Gate Boarding (Zero Lines)",
-      "Pet-Friendly Onboard Cabin",
-      "Complimentary Champagne & Caviar Service"
-    ],
-    "img": "https://images.unsplash.com/photo-1520437358207-323b43b50729"
+    tail: "N350CL",
+    model: "Bombardier Challenger 350",
+    category: "Super-Midsize",
+    range: "3,200 NM (Coast-to-Coast)",
+    speed: "Mach 0.82 (541 mph)",
+    passengers: 9,
+    hourlyRate: 6800,
+    homeBase: "KMIA (Miami Executive)",
+    description: "The best-selling super-midsize business jet in the world. Flat floor cabin, quietest acoustic signature in its class, and seamless domestic transcontinental capability.",
+    amenities: ["Flat Floor Stand-Up Cabin", "In-Flight Luggage Access", "Gogo AVANCE L5 High-Speed WiFi", "Fold-Out Executive Workstations"],
+    img: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1",
+    gallery: [
+      "https://images.unsplash.com/photo-1569154941061-e231b4725ef1"
+    ]
+  },
+  {
+    tail: "N525CJ",
+    model: "Cessna Citation CJ4 Gen2",
+    category: "Light Jet",
+    range: "2,165 NM (Regional Point-to-Point)",
+    speed: "Mach 0.77 (519 mph)",
+    passengers: 7,
+    hourlyRate: 4200,
+    homeBase: "KASE (Aspen Pitkin)",
+    description: "Agile, luxury point-to-point regional charter engineered for high-altitude mountain runways and short field departures.",
+    amenities: ["Deep Cushion Leather Club", "Wireless Cabin Management", "High-Elevation Runways Approved", "Refreshment Center"],
+    img: "https://images.unsplash.com/photo-1583416750470-965b2707b355",
+    gallery: [
+      "https://images.unsplash.com/photo-1583416750470-965b2707b355"
+    ]
   }
 ];
 
 export default function App() {
+  const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+  const [selectedAircraft, setSelectedAircraft] = useState<Aircraft | null>(null);
+  const [isManifestOpen, setIsManifestOpen] = useState(false);
+  const [paxCount, setPaxCount] = useState(4);
+  const [flightDate, setFlightDate] = useState('2026-10-15');
+  const [routing, setRouting] = useState('KTEB → KMIA');
+  const [booked, setBooked] = useState(false);
+
   const [isAdminOpen, setIsAdminOpen] = useState(
     typeof window !== 'undefined' && (
       window.location.search.includes('admin') || 
@@ -69,257 +107,257 @@ export default function App() {
       window.location.hash === '#admin'
     )
   );
-  const [selectedItem, setSelectedItem] = useState(ITEMS[0].id);
-  const [inquiryName, setInquiryName] = useState('');
-  const [inquiryPhone, setInquiryPhone] = useState('');
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inquiryName || !inquiryPhone) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setInquiryName('');
-      setInquiryPhone('');
-    }, 4000);
+  const filtered = FLEET.filter(a => 
+    selectedCategory === 'ALL' || a.category === selectedCategory
+  );
+
+  const handleOpenManifest = (aircraft: Aircraft) => {
+    setSelectedAircraft(aircraft);
+    setIsManifestOpen(true);
+    setBooked(false);
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-zinc-100 font-sans selection:bg-amber-500/20 selection:text-amber-400">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-zinc-800/80 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-zinc-950 font-extrabold shadow-lg shadow-amber-600/20">
-              <Truck className="w-5 h-5 text-zinc-950" />
-            </div>
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-amber-500 font-semibold">Private Jet Charter & Tail-Number Fleet OS</span>
-              <h1 className="text-lg font-bold tracking-tight text-white leading-none">AVIATION CHARTER OS</h1>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#0A0A0B] text-zinc-100 flex flex-col font-sans selection:bg-amber-400 selection:text-black">
+      {/* Top Telemetry Header */}
+      <header className="border-b border-zinc-800 bg-[#0C0D10]/95 backdrop-blur-md px-6 py-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 font-mono text-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+          <span className="font-serif tracking-widest text-white flex items-center gap-2 text-base font-bold">
+            <Plane size={18} className="text-amber-400" /> AURA AERO // PRIVATE CHARTER TAIL SHOWCASE
+          </span>
+          <span className="text-zinc-600">|</span>
+          <span className="text-zinc-400 font-semibold uppercase text-xs">ARCHETYPE B: ASYMMETRIC EDITORIAL</span>
+        </div>
 
-          <div className="hidden md:flex items-center gap-8 text-xs font-medium uppercase tracking-wider text-zinc-400">
-            <a href="#inventory" className="hover:text-amber-400 transition">Fleet Roster</a>
-            <a href="#telemetry" className="hover:text-amber-400 transition">Telematics</a>
-            <a href="#specs" className="hover:text-amber-400 transition">Compliance</a>
-            <a href="#dispatch" className="hover:text-amber-400 transition">Book Dispatch</a>
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-zinc-300">
+            <Shield size={14} className="text-amber-400" />
+            <span>ARG/US PLATINUM & WYVERN WINGMAN RATED</span>
           </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              className="px-4 py-2 rounded-lg bg-zinc-900 border border-amber-500/40 text-amber-400 hover:bg-amber-500/10 text-xs font-mono uppercase tracking-wider transition flex items-center gap-2"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>[ DISPATCH PASS ]</span>
-            </button>
-          </div>
+          <button 
+            onClick={() => setIsAdminOpen(true)}
+            className="px-3.5 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded-lg text-xs font-mono font-bold transition-all"
+          >
+            [ DISPATCH RADAR PASS ]
+          </button>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative pt-20 pb-24 px-6 overflow-hidden border-b border-zinc-800">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(245,158,11,0.15),rgba(255,255,255,0))]"></div>
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>COMMERCIAL FLEET ENGINE • 9.8 VERIFIED PRODUCTION GRADE</span>
-          </div>
-
-          <h2 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            AVIATION <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">CHARTER OS</span>
-          </h2>
-
-          <p className="mt-6 text-lg sm:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-            Tail-Number Fleet Grid, Empty-Leg Alerts & VIP Passenger Logs. High-utilization asset dispatch, real-time telemetry, and turnkey Supabase PostgreSQL database schemas.
+      {/* Editorial Hero Statement */}
+      <section className="px-6 py-12 max-w-7xl mx-auto w-full">
+        <div className="max-w-3xl space-y-4">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-400 bg-amber-950/40 border border-amber-500/30 px-3 py-1 rounded-full">
+            VIP Aviation Atelier & Fleet Dispatch
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white font-serif leading-[1.1]">
+            Sovereign Aviation. <br />
+            <span className="text-zinc-400 italic font-light">Zero Compromise on Range or Security.</span>
+          </h1>
+          <p className="text-base sm:text-lg text-zinc-300 font-sans leading-relaxed">
+            Curated access to verified Part 135 tail numbers. Fully managed private manifests, point-to-point intercontinental routings, and bespoke inflight culinary service.
           </p>
+        </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#dispatch"
-              className="px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm tracking-wide transition shadow-lg shadow-amber-500/25 flex items-center gap-2"
-            >
-              <span>Instant Fleet Dispatch</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
+        {/* Dynamic Category Filter Pills */}
+        <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-zinc-800/80 font-mono text-xs">
+          {['ALL', 'Ultra-Long Range', 'Super-Midsize', 'Light Jet'].map(cat => (
             <button
-              onClick={() => setIsAdminOpen(true)}
-              className="px-8 py-3.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-amber-500/40 text-zinc-200 text-sm font-semibold transition flex items-center gap-2"
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 rounded-full border transition-all ${
+                selectedCategory === cat 
+                  ? 'bg-amber-400 text-black border-amber-400 font-bold' 
+                  : 'bg-zinc-900/60 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+              }`}
             >
-              <span>Launch Supervisor OS</span>
-              <span className="text-amber-400 font-mono text-xs font-bold">[aviation2026]</span>
+              {cat}
             </button>
-          </div>
-
-          {/* Metrics Ticker */}
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
-            
-              <div key="GLOBAL TAIL ROSTER" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-xs font-semibold tracking-wider font-mono text-zinc-400 uppercase tracking-wider block">GLOBAL TAIL ROSTER</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-amber-400 mt-1">{"38 AIRCRAFT"}</p>
-              </div>
-            
-              <div key="EMPTY-LEG SAVINGS" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-xs font-semibold tracking-wider font-mono text-zinc-400 uppercase tracking-wider block">EMPTY-LEG SAVINGS</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-amber-400 mt-1">{"UP TO 65%"}</p>
-              </div>
-            
-              <div key="PART 135 SAFETY RATING" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-xs font-semibold tracking-wider font-mono text-zinc-400 uppercase tracking-wider block">PART 135 SAFETY RATING</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-amber-400 mt-1">{"ARGUS PLATINUM"}</p>
-              </div>
-            
-              <div key="DISPATCH READINESS" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-xs font-semibold tracking-wider font-mono text-zinc-400 uppercase tracking-wider block">DISPATCH READINESS</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-amber-400 mt-1">{"< 2 HOURS"}</p>
-              </div>
-            
-          </div>
-        </div>
-      </section>
-
-      {/* Showcase Grid */}
-      <section id="inventory" className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <div>
-            <span className="text-xs font-mono text-amber-500 uppercase tracking-widest block mb-2">OPERATIONAL LINEUP</span>
-            <h3 className="text-3xl font-extrabold text-white">Featured Fleet & Priority Units</h3>
-          </div>
-          <span className="text-sm text-zinc-400 mt-2 md:mt-0 font-mono">100% Inspected & Live Telematics Connected</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {ITEMS.map((item) => (
-            <div 
-              key={item.id}
-              className="group rounded-2xl bg-[#121214] border border-zinc-800 hover:border-amber-500/40 transition-all overflow-hidden flex flex-col shadow-xl"
-            >
-              <div className="relative h-56 overflow-hidden bg-zinc-900">
-                <img 
-                  src={item.img} 
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-transparent"></div>
-                <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-black/70 backdrop-blur-md border border-zinc-700 text-xs font-semibold font-mono font-bold text-amber-400">
-                  {item.status}
-                </div>
-              </div>
-
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-mono text-amber-400 uppercase tracking-wider block mb-1">{item.id}</span>
-                  <h4 className="text-xl font-bold text-white mb-2 leading-tight">{item.title}</h4>
-                  <p className="text-base text-zinc-200 leading-relaxed mb-4">{item.subtitle}</p>
-
-                  <div className="space-y-2 mb-6">
-                    {item.features.map((feat, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-zinc-300 font-mono">
-                        <Check className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
-                  <span className="text-sm font-bold text-amber-400 font-mono">{item.rate}</span>
-                  <a
-                    href="#dispatch"
-                    onClick={() => setSelectedItem(item.id)}
-                    className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 text-zinc-200 text-xs font-semibold transition"
-                  >
-                    Reserve Unit
-                  </a>
-                </div>
-              </div>
-            </div>
           ))}
         </div>
       </section>
 
-      {/* Booking / Dispatch Intake */}
-      <section id="dispatch" className="py-20 px-6 bg-zinc-950 border-t border-zinc-800">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-amber-500 uppercase tracking-widest block mb-2">INSTANT BOOKING DISPATCH</span>
-            <h3 className="text-3xl font-extrabold text-white">Reserve Machinery or File Dispatch Mandate</h3>
-            <p className="text-zinc-400 text-sm mt-3">Direct integration into PostgreSQL delivery dispatches with zero friction.</p>
-          </div>
+      {/* Asymmetric Editorial Fleet Grid */}
+      <section className="px-6 pb-20 max-w-7xl mx-auto w-full flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          {filtered.map((aircraft, index) => {
+            // Asymmetric layout span
+            const isLarge = index % 3 === 0;
+            const spanClass = isLarge ? 'md:col-span-8' : 'md:col-span-4';
 
-          <form onSubmit={handleSubmit} className="p-8 rounded-2xl bg-[#121214] border border-amber-500/20 shadow-2xl space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold font-mono uppercase text-zinc-400 mb-2">Company / Mandate Entity</label>
-                <input
-                  type="text"
-                  required
-                  value={inquiryName}
-                  onChange={(e) => setInquiryName(e.target.value)}
-                  placeholder="e.g. Apex Infrastructure Partners LLC"
-                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-amber-500 text-sm font-sans"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold font-mono uppercase text-zinc-400 mb-2">Dispatch Contact Direct Line</label>
-                <input
-                  type="tel"
-                  required
-                  value={inquiryPhone}
-                  onChange={(e) => setInquiryPhone(e.target.value)}
-                  placeholder="+1 (555) 019-2834"
-                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-amber-500 text-sm font-sans"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold font-mono uppercase text-zinc-400 mb-2">Selected Priority Asset</label>
-              <select
-                value={selectedItem}
-                onChange={(e) => setSelectedItem(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-amber-500 text-sm font-sans"
+            return (
+              <div 
+                key={aircraft.tail}
+                className={`${spanClass} bg-[#111217] border border-zinc-800 rounded-2xl overflow-hidden group hover:border-amber-400/50 transition-all flex flex-col justify-between`}
               >
-                {ITEMS.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.id} - {item.title} ({item.rate})
-                  </option>
-                ))}
-              </select>
-            </div>
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img 
+                    src={aircraft.img} 
+                    alt={aircraft.model} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-95 group-hover:brightness-100"
+                  />
+                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full font-mono text-xs font-bold text-amber-400 border border-white/10">
+                    {aircraft.tail}
+                  </div>
+                  <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full font-mono text-xs font-bold text-zinc-200 border border-white/10">
+                    {aircraft.homeBase}
+                  </div>
+                </div>
 
-            <button
-              type="submit"
-              className="w-full py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm uppercase tracking-wider transition shadow-lg shadow-amber-500/20"
-            >
-              {submitted ? '✓ MANDATE REGISTERED & TRANSMITTED' : 'SUBMIT DISPATCH RESERVATION REQUEST'}
-            </button>
-          </form>
+                <div className="p-6 space-y-4">
+                  <div>
+                    <span className="text-xs font-mono uppercase text-amber-400 tracking-wider font-semibold">
+                      {aircraft.category}
+                    </span>
+                    <h3 className="text-2xl font-black text-white font-serif mt-1">
+                      {aircraft.model}
+                    </h3>
+                  </div>
+
+                  <p className="text-sm text-zinc-300 font-sans leading-relaxed">
+                    {aircraft.description}
+                  </p>
+
+                  <div className="grid grid-cols-3 gap-2 py-3 border-y border-zinc-800/80 font-mono text-xs">
+                    <div>
+                      <span className="text-zinc-500 block text-[11px]">MAX RANGE</span>
+                      <span className="text-white font-bold">{aircraft.range.split(' ')[0]} NM</span>
+                    </div>
+                    <div>
+                      <span className="text-zinc-500 block text-[11px]">CRUISE SPEED</span>
+                      <span className="text-white font-bold">{aircraft.speed.split(' ')[0]}</span>
+                    </div>
+                    <div>
+                      <span className="text-zinc-500 block text-[11px]">CAPACITY</span>
+                      <span className="text-white font-bold">{aircraft.passengers} Pax</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                    <div>
+                      <span className="text-xs font-mono text-zinc-400 block">EST. CHARTER RATE</span>
+                      <span className="text-2xl font-black text-amber-400 font-mono">
+                        ${aircraft.hourlyRate.toLocaleString()} <span className="text-xs text-zinc-400 font-normal">/ hour</span>
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => handleOpenManifest(aircraft)}
+                      className="px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-black font-mono font-black text-xs rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-amber-400/20 cursor-pointer min-h-[44px]"
+                    >
+                      <span>BOOK MANIFEST</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-zinc-800 bg-[#0A0A0B] text-zinc-300 text-xs font-mono">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <span className="text-zinc-300 font-bold">AVIATION CHARTER OS</span> • Commercial Operating System v1.0.0
-          </div>
-          <div className="flex items-center gap-6">
-            <span>Ghost Factory™ Protocol</span>
-            <span>Supabase RLS Enforced</span>
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              className="text-amber-400 hover:underline"
-            >
-              Admin Portal (aviation2026)
-            </button>
+      {/* Slide-over Passenger Manifest & Flight Commission Sheet */}
+      {isManifestOpen && selectedAircraft && (
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-lg bg-[#0F1015] border-l border-zinc-800 p-8 overflow-y-auto flex flex-col justify-between font-sans shadow-2xl">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <Plane size={20} className="text-amber-400" />
+                  <span className="font-mono text-sm font-bold text-white uppercase tracking-wider">Flight Commission Sheet</span>
+                </div>
+                <button 
+                  onClick={() => setIsManifestOpen(false)}
+                  className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div>
+                <img 
+                  src={selectedAircraft.img} 
+                  alt={selectedAircraft.model} 
+                  className="w-full h-44 object-cover rounded-xl border border-zinc-800"
+                />
+                <div className="mt-3 flex justify-between items-center text-xs font-mono text-amber-400">
+                  <span>TAIL: {selectedAircraft.tail}</span>
+                  <span>BASE: {selectedAircraft.homeBase}</span>
+                </div>
+                <h2 className="text-2xl font-black text-white font-serif mt-1">{selectedAircraft.model}</h2>
+              </div>
+
+              {/* Inflight Amenities */}
+              <div className="space-y-2">
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-bold">Standard Inflight Inclusions</span>
+                <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                  {selectedAircraft.amenities.map(amenity => (
+                    <div key={amenity} className="p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 flex items-center gap-1.5">
+                      <Check size={14} className="text-amber-400 shrink-0" />
+                      <span className="truncate">{amenity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Commission Form Inputs */}
+              <div className="space-y-4 pt-2 font-mono text-xs">
+                <div className="space-y-1.5">
+                  <label className="text-zinc-400 uppercase font-bold">City-Pair Routing (ICAO / IATA)</label>
+                  <input 
+                    type="text"
+                    value={routing}
+                    onChange={e => setRouting(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-white font-mono text-sm focus:border-amber-400 outline-none min-h-[44px]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-zinc-400 uppercase font-bold">Target Departure Date</label>
+                    <input 
+                      type="date"
+                      value={flightDate}
+                      onChange={e => setFlightDate(e.target.value)}
+                      className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-white font-mono text-sm focus:border-amber-400 outline-none min-h-[44px]"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-zinc-400 uppercase font-bold">Passenger Count</label>
+                    <input 
+                      type="number"
+                      min="1"
+                      max={selectedAircraft.passengers}
+                      value={paxCount}
+                      onChange={e => setPaxCount(Number(e.target.value))}
+                      className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-white font-mono text-sm focus:border-amber-400 outline-none min-h-[44px]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Booking Action */}
+            <div className="pt-6 border-t border-zinc-800 space-y-3 font-mono">
+              {booked ? (
+                <div className="p-4 bg-emerald-500/20 border border-emerald-500 text-emerald-400 rounded-xl text-center text-xs font-bold space-y-1">
+                  <div>✓ CHARTER MANIFEST DISPATCHED</div>
+                  <div className="text-[11px] text-zinc-300">Operations desk verifying runway slot and FBO gate pass.</div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setBooked(true)}
+                  className="w-full py-4 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-all shadow-xl shadow-amber-400/20 cursor-pointer min-h-[44px]"
+                >
+                  DISPATCH ESCROW & SECURE TAIL NUMBER
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </footer>
+      )}
 
-      {/* Admin Modal */}
       <AdminPortalModal isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </div>
   );
